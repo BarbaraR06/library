@@ -1,103 +1,110 @@
+"use client";
+import { useSession, signIn } from "next-auth/react";
+import { useState } from "react";
+import CardSearch from "./components/CardSearch";
+import CardLibrary from "./components/CardLibrary";
+import BottomActionToast from "./components/BottomActionToast";
+import Profile from "./components/Profile";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+export default function HomePage() {
+  const { data: session, status } = useSession();
+  const [activeTab, setActiveTab] = useState<"search" | "library">("search");
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastKind, setToastKind] = useState<
+    "added" | "removed" | "error" | "info"
+  >("info");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const [toastTitle, setToastTitle] = useState<string>();
+  const [toastDescription, setToastDescription] = useState<string>();
+
+  if (status === "loading") {
+    return <p className="text-center mt-10">Loading...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return (
+      <div className="flex flex-col items-center mt-20">
+        <h1 className="font-starborn text-3xl mb-6">Storycita</h1>
+        <button
+          onClick={() => signIn()}
+          className="bg-purpleLight px-4 py-2 rounded-md hover:bg-purple-600 text-white"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          Login with GitHub
+        </button>
+      </div>
+    );
+  }
+
+  const handleToggle = async (
+    imdbId: string,
+    type: string,
+    nextAdded: boolean
+  ) => {
+    const url = nextAdded ? "/api/media/import" : "/api/media/remove";
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imdbId, type }),
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json();
+      setToastKind("error");
+      setToastTitle("Error");
+      setToastDescription(error ?? "Intenta nuevamente");
+      setToastOpen(true);
+      return;
+    }
+
+    if (nextAdded) {
+      setToastKind("added");
+      setToastTitle("Added to your library");
+      setToastDescription("You can find it in your library");
+    } else {
+      setToastKind("removed");
+      setToastTitle("Removed from your library");
+      setToastDescription("The item was deleted successfully");
+    }
+    setToastOpen(true);
+  };
+
+  return (
+    <main>
+      <div className="flex justify-center ">
+        <h1 className="font-starborn text-3xl ">Storycita</h1>
+      </div>
+      <div className="bg-purpleLight h-2 mt-4"></div>
+      <Profile />
+      <div className="flex justify-center mt-10 gap-4">
+        <button className="p-3" onClick={() => setActiveTab("search")}>
+          Search
+        </button>
+        <Image
+          src="/star.svg"
+          alt="Star animation"
+          width={20}
+          height={20}
+          className="animate-spin"
+        />
+        <button className="p-3" onClick={() => setActiveTab("library")}>
+          My Library
+        </button>
+      </div>
+      <BottomActionToast
+        open={toastOpen}
+        onOpenChange={setToastOpen}
+        kind={toastKind}
+        title={toastTitle}
+        description={toastDescription}
+      />
+
+      <div className="justify-center">
+        {activeTab === "search" && <CardSearch onToggle={handleToggle} />}
+        {session && activeTab === "library" && (
+          <CardLibrary userId={session.user!.id} />
+        )}
+      </div>
+    </main>
   );
 }
