@@ -51,7 +51,6 @@ interface LibraryCardProps {
 }
 
 export default function Card({ item, onUpdate, onRemove }: LibraryCardProps) {
-  // notas locales (draft), para no disparar updates en cada keypress
   const [notesDraft, setNotesDraft] = useState(item.notes ?? "");
 
   useEffect(() => {
@@ -59,7 +58,7 @@ export default function Card({ item, onUpdate, onRemove }: LibraryCardProps) {
   }, [item.notes, item.media.id]);
 
   return (
-    <div className="relative border-2 border-purpleLight rounded-md m-2 p-4">
+    <div className="relative border-2 border-purpleLight rounded-md p-4 md:w-[360px] lg:w-[400px]">
       <button
         onClick={() => onRemove(item.media.id, item.media.title)}
         className="absolute top-2 right-2 p-1 rounded-full cursor-pointer"
@@ -84,14 +83,14 @@ export default function Card({ item, onUpdate, onRemove }: LibraryCardProps) {
             {item.media.imdbRating && ` • ⭐ ${item.media.imdbRating}`}
           </p>
 
-          <div className="flex flex-col gap-2 md:flex-row ">
+          <div className="flex flex-col gap-2 lg:flex-row">
             <Select
               value={item.status}
               onValueChange={(value) =>
                 onUpdate(item.media.id, { status: value as MediaStatusType })
               }
             >
-              <SelectTrigger className="w-48 rounded-lg text-gray-900 bg-pink">
+              <SelectTrigger className="w-40 rounded-lg text-gray-900 bg-pink">
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
               <SelectContent className="bg-pink rounded-lg text-dark">
@@ -207,7 +206,7 @@ export default function Card({ item, onUpdate, onRemove }: LibraryCardProps) {
             value={notesDraft}
             onChange={(e) => setNotesDraft(e.target.value)}
             onBlur={() => onUpdate(item.media.id, { notes: notesDraft })}
-            className="w-full h-16 p-1 mt-2 rounded border-purpleLight border-2"
+            className="w-4/5 h-16 p-1 mt-2 rounded border-purpleLight border-2"
           />
         </div>
       </div>

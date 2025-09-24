@@ -19,7 +19,7 @@ export default function HomePage() {
   const [toastDescription, setToastDescription] = useState<string>();
 
   if (status === "loading") {
-    return <p className="text-center mt-10">Loading...</p>;
+    return <p className="flex justify-center mt-10">Loading...</p>;
   }
 
   if (status === "unauthenticated") {
@@ -71,10 +71,10 @@ export default function HomePage() {
 
   return (
     <main>
-      <div className="flex justify-center ">
+      <div className="flex justify-center">
         <h1 className="font-starborn text-3xl ">Storycita</h1>
       </div>
-      <div className="bg-purpleLight h-2 mt-4"></div>
+      <div className="bg-purpleLight h-2 mt-4 w-full"></div>
       <Profile />
       <div className="flex justify-center mt-10 gap-4">
         <button className="p-3" onClick={() => setActiveTab("search")}>

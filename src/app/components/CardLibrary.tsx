@@ -73,11 +73,11 @@ export default function CardLibrary({ userId }: MediaLibraryProps) {
   const filteredItems =
     filter === "all" ? items : items.filter((it) => it.status === (filter.toUpperCase() as MediaStatusType));
 
-  if (loading) return <div className="mt-10">Loading...</div>;
+  if (loading) return <h1 className="mt-10 flex justify-center">Loading...</h1>;
 
   return (
-    <div className="flex flex-col">
-      <h2 className="text-2xl font-bold max-w-screen-md mx-auto mt-8 mb-8">
+    <div className="flex flex-col mx-4">
+      <h2 className="text-2xl font-bold max-w-screen-md mx-auto mt-8 mb-8 font-secondary">
         My Library
       </h2>
 
@@ -97,7 +97,7 @@ export default function CardLibrary({ userId }: MediaLibraryProps) {
         </Select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-screen-lg mx-auto lg:gap-x-60 gap-2">
         {filteredItems.map((item) => (
           <LibraryCard
             key={item.id}

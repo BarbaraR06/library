@@ -12,7 +12,7 @@ export default function Profile() {
 
   return (
     <div className="flex justify-end mt-4 items-center gap-2 mr-4">
-      <span className="font-primary text-xl">Hola, {firstName ?? "usuario"}</span>
+      <span className="font-primary text-md lg:text-xl">Hola, {firstName ?? "usuario"}</span>
       <div className="bg-pink rounded-full p-1 cursor-pointer hover:bg-pinkDark">
       <Image src="/power.svg" alt="Log out" width={20} height={20} />
       </div>
