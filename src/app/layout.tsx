@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
 import localFont from "next/font/local";
+import BackgroundStars from "./components/BackgroundStars";
 
 export const metadata: Metadata = {
   title: "Storycita",
@@ -37,7 +38,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${starborn.variable} ${epunda.variable}`}>
-      <body>
+      <body className="!cursor-star" >
+        <BackgroundStars />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -4,18 +4,20 @@
 
 body {
   font-family: var(--font-epunda);
-  color:#f5f1f5;
+  color: var(--color-white);
   margin-top: 20px;
   background-color: var(--color-purpleDark);
+  cursor: url("/cursor-star.png") 16 16, auto;
 }
+
 
 h1{
   font-family: var(--font-starborn);
 }
 
 button{
-  background-color: #FFF1F1;
-  color:#171717;
+  background-color: var(--color-white);
+  color:var(--color-dark);
   border-radius: 40px;
 }
 
@@ -30,6 +32,7 @@ button{
   --color-purpleLight: #6F00FF;
   --color-pink: #E9B3FB;
   --color-pinkDark: #9e6fad;
+  --color-dark: #1d0431;
 }
 
 .buttonPink{
@@ -45,3 +48,4 @@ button{
 .font-secondary {
   font-family: var(--font-starborn);  
 }
+

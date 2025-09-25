@@ -70,14 +70,14 @@ export default function HomePage() {
   };
 
   return (
-    <main>
+    <main >
       <div className="flex justify-center">
         <h1 className="font-starborn text-3xl ">Storycita</h1>
       </div>
-      <div className="bg-purpleLight h-2 mt-4 w-full"></div>
+      <div className="bg-white h-2 mt-4 w-full"></div>
       <Profile />
       <div className="flex justify-center mt-10 gap-4">
-        <button className="p-3" onClick={() => setActiveTab("search")}>
+        <button className="p-3 cursor-pointer" onClick={() => setActiveTab("search")}>
           Search
         </button>
         <Image
@@ -87,7 +87,7 @@ export default function HomePage() {
           height={20}
           className="animate-spin"
         />
-        <button className="p-3" onClick={() => setActiveTab("library")}>
+        <button className="p-3 cursor-pointer" onClick={() => setActiveTab("library")}>
           My Library
         </button>
       </div>

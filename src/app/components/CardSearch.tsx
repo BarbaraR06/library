@@ -125,7 +125,7 @@ export default function CardSearch({
           placeholder="Search..."
           autoComplete="off"
           aria-label="Buscar"
-          className="rounded-3xl border border-pink px-10 py-2 text-light placeholder:text-light focus:outline-none"
+          className="rounded-3xl border border-pink  px-10 py-2  placeholder:text-light focus:outline-none bg-white/20 placeholder:text-white text-white "
         />
 
         {/* filter */}
@@ -152,7 +152,7 @@ export default function CardSearch({
           <button
             type="submit"
             disabled={loading || !query.trim()}
-            className="rounded-lg py-2 px-6 buttonPink disabled:opacity-60 disabled:cursor-not-allowed"
+            className="rounded-lg py-2 px-6 disabled:opacity-60 disabled:cursor-not-allowed "
           >
             {loading ? "Searching..." : "Search"}
           </button>

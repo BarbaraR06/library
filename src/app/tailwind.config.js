@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -11,6 +10,9 @@ module.exports = {
       fontFamily: {
         epunda: "var(--font-epunda)",
         starborn: "var(--font-starborn)",
+      },
+      cursor: {
+        star: 'url("/cursor-star.png") 16 16, auto',
       },
     },
   },
