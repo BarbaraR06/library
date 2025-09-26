@@ -97,7 +97,7 @@ export default function CardLibrary({ userId }: MediaLibraryProps) {
         </Select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-screen-lg mx-auto lg:gap-x-60 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-screen-2xl mx-auto lg:gap-x-60 gap-2 justify-center">
         {filteredItems.map((item) => (
           <LibraryCard
             key={item.id}

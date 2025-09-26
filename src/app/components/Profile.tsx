@@ -11,7 +11,7 @@ export default function Profile() {
     "usuario";
 
   return (
-    <div className="flex justify-end mt-4 items-center gap-2 mr-4">
+    <div className="flex justify-end mt-10 items-center gap-2 mr-4">
       <span className="font-primary text-md lg:text-xl">
         Hola, {firstName ?? "usuario"}
       </span>

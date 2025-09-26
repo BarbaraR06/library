@@ -74,7 +74,7 @@ export default function HomePage() {
       <div className="flex justify-center">
         <h1 className="font-starborn text-3xl ">Storycita</h1>
       </div>
-      <div className="bg-white h-2 mt-4 w-full"></div>
+      <div className="bg-white h-2 mt-4 fixed left-0 right-0"></div>
       <Profile />
       <div className="flex justify-center mt-10 gap-4">
         <button className="p-3 cursor-pointer" onClick={() => setActiveTab("search")}>

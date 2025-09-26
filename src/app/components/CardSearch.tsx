@@ -160,15 +160,15 @@ export default function CardSearch({
       </form>
 
       {results.length > 0 && (
-        <div className="flex flex-col items-center mt-10">
-          {results.map((item) => {
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4  mx-auto gap-2 mt-4">
+          {results.map((item, index) => {
             const isAdded = addedIds.has(item.imdbID);
             const isPending = pendingId === item.imdbID;
             const showPing = justAddedId === item.imdbID;
 
             return (
               <div
-                key={item.imdbID}
+                key={`${item.imdbID}-${index}`} 
                 className="mb-6 flex-col flex items-center justify-center "
               >
                 {item.Poster !== "N/A" && (
@@ -220,10 +220,10 @@ export default function CardSearch({
                   </div>
                 )}
 
-                <div className="mt-2 grid grid-cols-2 w-[260px] ">
+                <div className="flex mt-2 w-[250px] justify-center">
                   <div className="">
-                    <h3 className="font-semibold w-[200px]">{item.Title}</h3>
-                    <p className="text-sm opacity-80">
+                    <h3 className="font-semibold text-center">{item.Title}</h3>
+                    <p className="text-sm opacity-80 text-center">
                       {item.Year} • {item.Type}
                     </p>
                   </div>
