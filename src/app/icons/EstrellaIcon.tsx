@@ -1,5 +1,7 @@
 import * as React from "react"
-const EstrellaIcon = (props: React.SVGProps<SVGSVGElement>) => (
+import { SVGProps } from "react"
+
+const EstrellaIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"

@@ -2,7 +2,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '../../lib/prisma';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { LibraryStatus } from '@prisma/client';
+import { Prisma, $Enums } from '@prisma/client';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -28,7 +28,8 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   
   const body = await req.json();
-  const updateData: any = {
+
+  const updateData: Prisma.MediaStatusUpdateInput = {
     rating: body.rating,
     progress: body.progress,
     currentSeason: body.currentSeason,
@@ -36,13 +37,13 @@ export async function POST(req: NextRequest) {
     currentPage: body.currentPage,
     totalPages: body.totalPages,
     notes: body.notes,
-    ...(body.status && { status: body.status as LibraryStatus }),
+    status: (body.status as $Enums.LibraryStatus) ?? ('WISHLIST' as $Enums.LibraryStatus),
   };
 
-  const createData: any = {
-    userId: session.user.id,
-    mediaId: body.mediaId,
-    status: (body.status as LibraryStatus) ?? 'WISHLIST',
+  const createData: Prisma.MediaStatusCreateInput = {
+    user: { connect: { id: session.user.id } },
+    media: { connect: { id: body.mediaId } },
+    status: (body.status as $Enums.LibraryStatus) ?? ('WISHLIST' as $Enums.LibraryStatus),
     rating: body.rating,
     progress: body.progress,
     currentSeason: body.currentSeason,
@@ -96,4 +97,3 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to remove from library' }, { status: 500 });
   }
 }
-

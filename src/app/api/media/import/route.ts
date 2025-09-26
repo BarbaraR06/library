@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { getServerSession } from 'next-auth';
 import { prisma } from "../../../lib/prisma";
 import { OMDbService, type OMDbSeriesDetails } from "../../../lib/omdb";
+import { Prisma } from "@prisma/client";
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -76,11 +79,11 @@ export async function POST(req: NextRequest) {
           create: {
             source: 'omdb',
             externalId: imdbId,
-            data: omdbData as any,
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            data: omdbData as object,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
           },
         },
-        // Create default library status for the current user
+     
         statuses: {
           create: {
             userId: session.user.id,

@@ -12,10 +12,15 @@ export async function POST(req: Request) {
 
     const { imdbId } = await req.json();
     if (!imdbId) {
-      return NextResponse.json({ error: "imdbId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "imdbId is required" },
+        { status: 400 }
+      );
     }
 
-    const media = await prisma.media.findUnique({ where: { externalId: imdbId } });
+    const media = await prisma.media.findUnique({
+      where: { externalId: imdbId },
+    });
     if (!media) {
       return NextResponse.json({ ok: true });
     }
@@ -25,11 +30,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Remove error:", error);
-    return NextResponse.json(
-      { error: error?.message ?? "Remove failed" },
-      { status: 500 }
-    );
+
+    const message = error instanceof Error ? error.message : "Remove failed";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

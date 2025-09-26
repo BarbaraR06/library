@@ -1,5 +1,6 @@
 import * as React from "react";
-const StarIcon = (props: any) => (
+import { SVGProps } from "react";
+const StarIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" {...props}>
     <g data-name="Capa 2">
       <path
